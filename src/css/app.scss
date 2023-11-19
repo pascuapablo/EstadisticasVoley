@@ -1,0 +1,18 @@
+$info: 	#8cd5bf;
+
+$success: #b5ead7;
+$warning:#ecc884;
+$danger:	#ff8b82;
+
+$primary: #0a9396;
+
+$btn-active-bg-shade-amount:      80%;
+$btn-active-bg-tint-amount:       80%;
+$btn-active-border-shade-amount:  85%;
+$btn-active-border-tint-amount:   80%;
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+
+.tableFixHead          { overflow: auto; height: 100vh; }
+.tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
