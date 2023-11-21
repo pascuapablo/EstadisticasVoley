@@ -17,9 +17,9 @@ function StatsResults({players, stats}) {
     return (
         <div className="table-responsive">
 
-<div className={"d-flex justify-content-end"}>
-    <button className={"btn btn-primary text-light my-3 "} onClick={buttonClick}>Descargar</button>
-</div>
+            <div className={"d-flex justify-content-end"}>
+                <button className={"btn btn-primary text-light my-3 "} onClick={buttonClick}>Descargar</button>
+            </div>
 
             <table className="table table-bordered align-middle text-center" id={"sheetjs"}>
                 <thead className="table-light">
@@ -67,7 +67,7 @@ function StatsResults({players, stats}) {
 
                 {players
                     .slice()
-                    .filter((player) => player.isInCourt)
+                    .filter((player) => stats.filter(stat => stat.playerName === player.name).length > 0)
                     .sort((a, b) => a.position.localeCompare(b.position))
                     .map((player, index) => (
                         <tr
