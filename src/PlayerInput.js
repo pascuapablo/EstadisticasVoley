@@ -51,15 +51,19 @@ function PlayerInput({onAddPlayer}) {
                             <Form.Control type="text" placeholder="Nombre" value={playerName}
                                           onChange={e => setPlayerName(e.target.value)}/>
                         </Form.Group>
-                        <Form.Select className={"mb-3"} value={playerPosition}
+                        <Form.Select className={"mb-3 "} value={playerPosition} style={{color:"#212529"}}
                                      onChange={e => setPlayerPosition(e.target.value)}>
-                            <option>Armador</option>
-                            <option>Punta</option>
-                            <option>Central</option>
-                            <option>Opuesto</option>
-                            <option>Libero</option>
+                            <option value="" disabled style={{ display: 'none'}} >
+                                Posición
+                            </option>
+                            <option value={"Armador"} >Armador</option>
+                            <option value={"Punta"}>Punta</option>
+                            <option value={"Central"}>Central</option>
+                            <option value={"Opuesto"}>Opuesto</option>
+                            <option value={"Libero"}>Libero</option>
 
                         </Form.Select>
+
                         <Form.Group className="mb-3">
                             <Form.Control type="number" placeholder="Camiseta" value={playerNumber}
                                           onChange={e => setPlayerNumber(e.target.value)}/>
@@ -71,7 +75,7 @@ function PlayerInput({onAddPlayer}) {
                     <Button variant="secondary" onClick={handleClose}>
                         cerrar
                     </Button>
-                    <Button variant="primary" onClick={handleSubmit}>
+                    <Button variant="primary" className={"text-light"} onClick={handleSubmit}>
                         Agregar
                     </Button>
                 </Modal.Footer>

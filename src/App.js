@@ -21,9 +21,9 @@ function App() {
 
     const [stats, setStats] = useState([]);
 
-    const addPlayer = (name, position, playerNumber) => {
-        const newPlayer = {name, position, isInCancha: false, number: playerNumber};
-        setPlayers([...players, newPlayer]);
+    const editPlayer = (oldPlayerIndex, newPlayer) => {
+        players.splice(oldPlayerIndex, 1, newPlayer)
+        setPlayers([...players]);
     }
 
     const addStats = (playerName, action, pointValue) => {
@@ -32,11 +32,9 @@ function App() {
 
     }
 
-    const toggleInCancha = (index, isInCourt) => {
-        console.log(index, isInCourt)
-        const updatedPlayers = [...players];
-        updatedPlayers[index].isInCourt = isInCourt;
-        setPlayers(updatedPlayers);
+    const deletePlayer = (index) => {
+        players.splice(index, 1)
+        setPlayers([...players]);
     }
 
     return (
@@ -48,10 +46,10 @@ function App() {
             >
                 <Tab eventKey="tab1" title="Jugadores ">
                     <Row>
-                        <PlayerList players={players} onToggleInCancha={toggleInCancha}/>
+                        <PlayerList players={players} onDeletePlayer={deletePlayer} onEditPlayer={editPlayer}/>
                     </Row>
                     <Row>
-                        <PlayerInput onAddPlayer={addPlayer}/>
+                        <PlayerInput onAddPlayer={editPlayer}/>
                     </Row>
 
 
@@ -61,6 +59,7 @@ function App() {
                 </Tab>
                 <Tab eventKey="tab3" title="Resultados" className={"text-black"}>
                     <StatsResults stats={stats} players={players}></StatsResults> </Tab>
+
             </Tabs>
 
         </div>

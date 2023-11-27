@@ -16,3 +16,12 @@ $btn-active-border-tint-amount:   80%;
 
 .tableFixHead          { overflow: auto; height: 100vh; }
 .tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
+.tablePlayerList tbody tr { height: 55px; vertical-align:middle }
+
+.dropdown-menu.show {
+  --bs-dropdown-min-width: 0em;
+}
+
+.btn {
+  --bs-btn-padding-x: 0;
+}
