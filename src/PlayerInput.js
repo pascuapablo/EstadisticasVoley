@@ -1,47 +1,34 @@
 import React, {useState} from 'react';
-import {Button, Form, Modal, Row} from "react-bootstrap";
-import * as PropTypes from "prop-types";
+import {Button, Form, Modal} from "react-bootstrap";
 
-function Mo(props) {
-    return null;
-}
 
-Mo.propTypes = {
-    show: PropTypes.bool,
-    onHide: PropTypes.func,
-    children: PropTypes.node
-};
-
-function PlayerInput({onAddPlayer}) {
+function PlayerInput({onAddPlayer, onCancel, show}) {
     const [playerName, setPlayerName] = useState('');
     const [playerNumber, setPlayerNumber] = useState('');
     const [playerPosition, setPlayerPosition] = useState('');
-    const [show, setShow] = useState(false);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const cleanState = () => {
+        setPlayerName("");
+        setPlayerPosition("");
+        setPlayerNumber("")
+    }
 
     const handleSubmit = (e) => {
         console.log(e)
         console.log(playerNumber, playerName, playerPosition)
-        onAddPlayer(playerName, playerPosition,playerNumber)
+        onAddPlayer(playerName,  playerPosition,  playerNumber)
 
-        handleClose()
-    }
-    const addPlayer = () => {
-        onAddPlayer(playerName, playerPosition);
-        setPlayerName('');
-        setPlayerPosition('');
+        cleanState()
     }
 
+    const handleCancel = () => {
 
+        onCancel()
+        cleanState()
+    }
     return (
         <>
-            <Row className={"justify-content-center"}>
-                <Button className={"btn btn-primary col-sm-6 text-light"} onClick={handleShow}>Agregar Jugador</Button>
-                {/*<Button className={"btn btn-primary col-sm-6"} onClick={addPlayer}>Agregar Jugador</Button>*/}
-            </Row>
-            <Modal show={show} onHide={handleClose} fullscreen={true}>
+            <Modal show={show} onHide={handleCancel} fullscreen={true}>
                 <Modal.Header closeButton>
                     <Modal.Title>Agregar jugador</Modal.Title>
                 </Modal.Header>
@@ -51,12 +38,12 @@ function PlayerInput({onAddPlayer}) {
                             <Form.Control type="text" placeholder="Nombre" value={playerName}
                                           onChange={e => setPlayerName(e.target.value)}/>
                         </Form.Group>
-                        <Form.Select className={"mb-3 "} value={playerPosition} style={{color:"#212529"}}
+                        <Form.Select className={"mb-3 "} value={playerPosition} style={{color: "#212529"}}
                                      onChange={e => setPlayerPosition(e.target.value)}>
-                            <option value="" disabled style={{ display: 'none'}} >
+                            <option value="" disabled style={{display: 'none'}}>
                                 Posición
                             </option>
-                            <option value={"Armador"} >Armador</option>
+                            <option value={"Armador"}>Armador</option>
                             <option value={"Punta"}>Punta</option>
                             <option value={"Central"}>Central</option>
                             <option value={"Opuesto"}>Opuesto</option>
@@ -72,7 +59,7 @@ function PlayerInput({onAddPlayer}) {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" onClick={handleCancel}>
                         cerrar
                     </Button>
                     <Button variant="primary" className={"text-light"} onClick={handleSubmit}>
