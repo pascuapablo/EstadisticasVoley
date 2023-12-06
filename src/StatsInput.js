@@ -16,14 +16,14 @@ function StatsInput({players, onAddStats}) {
                 <div className={"table-responsive tableFixHead"}>
                     <table className="table table-striped ">
                         <thead>
-                        <tr className={"text-center"}>
-                            <th>Jugador</th>
-                            <th style={{minWidth: "150px"}}>Recepción</th>
-                            <th style={{minWidth: "150px"}}>Ataque</th>
-                            <th style={{minWidth: "150px"}}>Contraataque</th>
-                            <th style={{minWidth: "100px"}}>Bloqueo</th>
-                            <th style={{minWidth: "150px"}}>Saque</th>
-                            <th style={{minWidth: "100px"}}>Error por regla</th>
+                        <tr className={"text-center align-middle"}>
+                            <th className={"col-1"}>Jugador</th>
+                            <th style={{minWidth: "150px"}} className={"col-2"}>Recepción</th>
+                            <th style={{minWidth: "150px"}} className={"col-2"}>Ataque</th>
+                            <th style={{minWidth: "150px"}} className={"col-2"}>Contraataque</th>
+                            <th style={{minWidth: "100px"}} className={"col-1"}>Bloqueo</th>
+                            <th style={{minWidth: "150px"}} className={"col-2"}>Saque</th>
+                            <th style={{minWidth: "100px"}} className={"col-1"}>Error por regla</th>
                         </tr>
                         </thead>
                         <tbody className={"text-center align-middle"}>
@@ -36,230 +36,245 @@ function StatsInput({players, onAddStats}) {
                                     key={index}
                                     className="table-row"
                                 >
-                                    <td>{player.name}</td>
                                     <td>
-                                        <div className={"btn-group-vertical btn-column mx-1"}>
-                                            <button className="mx-1 mb-1 btn btn-info mb-1 "
-                                                    style={{fontSize: "0.6em", maxWidth: "66px"}}
-                                                    onClick={() => addStats(player.name, 'recepcion', "recepcion_++")}
-                                            >
-                                                <span>++</span>
-                                            </button>
-                                            <button
-                                                onClick={() => addStats(player.name, 'recepcion', "recepcion_+")}
-                                                className="mx-1 mb-1 btn btn-success  "
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
-
-                                            >
-                                                <span>+</span>
-                                            </button>
-                                            <button
-                                                onClick={() => addStats(player.name, 'recepcion', "recepcion_-")}
-                                                className="mx-1 mb-1 btn btn-warning "
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
-                                            >
-                                                <span>-</span>
-                                            </button>
-
-                                        </div>
-                                        <div className={"btn-group-vertical btn-column"}>
-                                            <button
-                                                onClick={() => addStats(player.name, 'recepcion', "recepcion_saque_ganado")}
-                                                className="mx-1 mb-1 btn btn-danger "
-
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
-
-                                            >
-                                                S. ganado
-                                            </button>
-                                            <button
-                                                onClick={() => addStats(player.name, 'recepcion', "recepcion_ace")}
-                                                className="mx-1 mb-1 btn btn-danger"
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
-
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
-
-                                            >
-                                                Ace
-                                            </button>
+                                        <div className={"d-inline-flex justify-content-evenly w-100"}>
+                                            {player.name}
                                         </div>
                                     </td>
                                     <td>
-                                        <div className={"btn-group-vertical btn-column mx-1"}>
+                                        <div className={"d-inline-flex justify-content-evenly w-100"}>
+                                            <div className={"btn-group-vertical btn-column  col-5"}>
+                                                <button className=" mb-1 btn btn-info mb-1 "
+                                                        style={{fontSize: "0.6em"}}
+                                                        onClick={() => addStats(player.name, 'recepcion', "recepcion_++")}
+                                                >
+                                                    <span>++</span>
+                                                </button>
+                                                <button
+                                                    onClick={() => addStats(player.name, 'recepcion', "recepcion_+")}
+                                                    className=" mb-1 btn btn-success  "
+                                                    style={{fontSize: "0.7em"}}
 
-                                            <button
-                                                onClick={() => addStats(player.name, 'ataque', "ataque_++")}
-                                                className="mx-1 mb-1 btn btn-info "
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
+                                                >
+                                                    <span>+</span>
+                                                </button>
+                                                <button
+                                                    onClick={() => addStats(player.name, 'recepcion', "recepcion_-")}
+                                                    className=" mb-1 btn btn-warning "
+                                                    style={{fontSize: "0.7em"}}
+                                                >
+                                                    <span>-</span>
+                                                </button>
 
-                                            >
-                                                ++
-                                            </button>
-                                            <button
-                                                onClick={() => addStats(player.name, 'ataque', "ataque_+")}
-                                                className="mx-1 mb-1 btn btn-success"
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
+                                            </div>
+                                            <div className={"btn-group-vertical btn-column col-5 col-5"}>
+                                                <button
+                                                    onClick={() => addStats(player.name, 'recepcion', "recepcion_saque_ganado")}
+                                                    className=" mb-1 btn btn-danger "
 
-                                            >
-                                                +
-                                            </button>
-                                            <button
-                                                onClick={() => addStats(player.name, 'ataque', "ataque_-")}
-                                                className="mx-1 mb-1 btn btn-warning"
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
-                                            >
-                                                -
-                                            </button>
-                                        </div>
+                                                    style={{fontSize: "0.7em"}}
 
-                                        <div className={"btn-group-vertical btn-column"}>
-                                            <button
-                                                onClick={() => addStats(player.name, 'ataque', "ataque_error_de_bloqueo")}
-                                                className="mx-1 mb-1 btn btn-danger"
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
-                                            >
-                                                err/bloq
-                                            </button>
-                                            <button
-                                                onClick={() => addStats(player.name, 'ataque', "ataque_error")}
-                                                className="mx-1 mb-1 btn btn-danger"
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
+                                                >
+                                                    S. ganado
+                                                </button>
+                                                <button
+                                                    onClick={() => addStats(player.name, 'recepcion', "recepcion_ace")}
+                                                    className=" mb-1 btn btn-danger"
+                                                    style={{fontSize: "0.7em"}}
 
-                                            >
-                                                error
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className={"btn-group-vertical  btn-column mx-1"}>
+                                                    style={{fontSize: "0.7em"}}
 
-                                            <button
-                                                onClick={() => addStats(player.name, 'contra-ataque', "contraataque_++")}
-                                                className="mx-1 mb-1 btn btn-info"
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
-
-                                            >
-                                                ++
-                                            </button>
-                                            <button
-                                                onClick={() => addStats(player.name, 'contra-ataque', "contraataque_+")}
-                                                className="mx-1 mb-1 btn btn-success"
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
-
-                                            >
-                                                +
-                                            </button>
-                                            <button
-                                                onClick={() => addStats(player.name, 'contra-ataque', "contraataque_-")}
-                                                className="mx-1 mb-1 btn btn-warning"
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
-
-                                            >
-                                                -
-                                            </button>
-                                        </div>
-                                        <div className={"btn-group-vertical  btn-column "}>
-
-                                            <button
-                                                onClick={() => addStats(player.name, 'contra-ataque', "contraataque_error_de_bloqueo")}
-                                                className="mx-1 mb-1 btn btn-danger"
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
-
-                                            >
-                                                err/bloq
-                                            </button>
-                                            <button
-                                                onClick={() => addStats(player.name, 'contra-ataque', "contraataque_error")}
-                                                className="mx-1 mb-1 btn btn-danger"
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
-
-                                            >
-                                                error
-                                            </button>
+                                                >
+                                                    Ace
+                                                </button>
+                                            </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <div className={"btn-group-vertical"}>
+                                        <div className={"d-inline-flex justify-content-evenly w-100 "}>
+                                            <div className={"btn-group-vertical btn-column col-5 "}>
 
-                                            <button
-                                                onClick={() => addStats(player.name, 'bloqueo', "bloqueo_+")}
-                                                className="mx-1 mb-1 btn btn-info"
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
+                                                <button
+                                                    onClick={() => addStats(player.name, 'ataque', "ataque_++")}
+                                                    className=" mb-1 btn btn-info "
+                                                    style={{fontSize: "0.7em"}}
 
-                                            >
-                                                ++
-                                            </button>
-                                            <button
-                                                onClick={() => addStats(player.name, 'bloqueo', "bloqueo_def")}
-                                                className="mx-1 mb-1 btn btn-success"
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
+                                                >
+                                                    ++
+                                                </button>
+                                                <button
+                                                    onClick={() => addStats(player.name, 'ataque', "ataque_+")}
+                                                    className=" mb-1 btn btn-success"
+                                                    style={{fontSize: "0.7em"}}
 
-                                            >
-                                                def
-                                            </button>
-                                            <button
-                                                onClick={() => addStats(player.name, 'bloqueo', "bloqueo_-")}
-                                                className="mx-1 mb-1 btn btn-warning"
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
+                                                >
+                                                    +
+                                                </button>
+                                                <button
+                                                    onClick={() => addStats(player.name, 'ataque', "ataque_-")}
+                                                    className=" mb-1 btn btn-warning"
+                                                    style={{fontSize: "0.7em"}}
+                                                >
+                                                    -
+                                                </button>
+                                            </div>
 
-                                            >
-                                                -
-                                            </button>
+                                            <div className={"btn-group-vertical btn-column col-5"}>
+                                                <button
+                                                    onClick={() => addStats(player.name, 'ataque', "ataque_error_de_bloqueo")}
+                                                    className=" mb-1 btn btn-danger"
+                                                    style={{fontSize: "0.7em"}}
+                                                >
+                                                    err/bloq
+                                                </button>
+                                                <button
+                                                    onClick={() => addStats(player.name, 'ataque', "ataque_error")}
+                                                    className=" mb-1 btn btn-danger"
+                                                    style={{fontSize: "0.7em"}}
+
+                                                >
+                                                    error
+                                                </button>
+                                            </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <div className={"btn-group-vertical btn-column mx-1"}>
+                                        <div className={"d-inline-flex justify-content-evenly w-100"}>
+                                            <div className={"btn-group-vertical  btn-column col-5 "}>
 
-                                            <button
-                                                onClick={() => addStats(player.name, 'saque', "saque_ace")}
-                                                className="mx-1 mb-1 btn btn-info"
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
+                                                <button
+                                                    onClick={() => addStats(player.name, 'contra-ataque', "contraataque_++")}
+                                                    className=" mb-1 btn btn-info"
+                                                    style={{fontSize: "0.7em"}}
 
-                                            >
-                                                ace
-                                            </button>
-                                            <button
-                                                onClick={() => addStats(player.name, 'saque', "saque_+")}
-                                                className="mx-1 mb-1 btn btn-success"
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
+                                                >
+                                                    ++
+                                                </button>
+                                                <button
+                                                    onClick={() => addStats(player.name, 'contra-ataque', "contraataque_+")}
+                                                    className=" mb-1 btn btn-success"
+                                                    style={{fontSize: "0.7em"}}
 
-                                            >
-                                                +
-                                            </button>
-                                            <button
-                                                onClick={() => addStats(player.name, 'saque', "saque_-")}
-                                                className="mx-1 mb-1 btn btn-warning"
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
+                                                >
+                                                    +
+                                                </button>
+                                                <button
+                                                    onClick={() => addStats(player.name, 'contra-ataque', "contraataque_-")}
+                                                    className=" mb-1 btn btn-warning"
+                                                    style={{fontSize: "0.7em"}}
 
-                                            >
-                                                -
-                                            </button>
+                                                >
+                                                    -
+                                                </button>
+                                            </div>
+                                            <div className={"btn-group-vertical  btn-column col-5 "}>
 
+                                                <button
+                                                    onClick={() => addStats(player.name, 'contra-ataque', "contraataque_error_de_bloqueo")}
+                                                    className=" mb-1 btn btn-danger"
+                                                    style={{fontSize: "0.7em"}}
+
+                                                >
+                                                    err/bloq
+                                                </button>
+                                                <button
+                                                    onClick={() => addStats(player.name, 'contra-ataque', "contraataque_error")}
+                                                    className=" mb-1 btn btn-danger"
+                                                    style={{fontSize: "0.7em"}}
+
+                                                >
+                                                    error
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div className={"btn-group-vertical btn-column"}>
-                                            <button
-                                                onClick={() => addStats(player.name, 'saque', "saque_error")}
-                                                className="mx-1 mb-1 btn btn-danger"
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
-
-                                            >
-                                                error
-                                            </button>
-
-                                        </div>
-
                                     </td>
                                     <td>
-                                        <div className={"btn-group-vertical"}>
+                                        <div className={"d-inline-flex justify-content-evenly w-100"}>
+                                            <div className={"btn-group-vertical col-12"}>
 
-                                            <button
-                                                onClick={() => addStats(player.name, 'error_por_regla', "error_por_regla_error")}
-                                                className="mx-1 mb-1 btn btn-danger"
-                                                style={{fontSize: "0.7em", maxWidth: "66px"}}
+                                                <button
+                                                    onClick={() => addStats(player.name, 'bloqueo', "bloqueo_+")}
+                                                    className=" mb-1 btn btn-info"
+                                                    style={{fontSize: "0.7em"}}
 
-                                            >
-                                                error
-                                            </button>
+                                                >
+                                                    ++
+                                                </button>
+                                                <button
+                                                    onClick={() => addStats(player.name, 'bloqueo', "bloqueo_def")}
+                                                    className=" mb-1 btn btn-success"
+                                                    style={{fontSize: "0.7em"}}
+
+                                                >
+                                                    def
+                                                </button>
+                                                <button
+                                                    onClick={() => addStats(player.name, 'bloqueo', "bloqueo_-")}
+                                                    className=" mb-1 btn btn-warning"
+                                                    style={{fontSize: "0.7em"}}
+
+                                                >
+                                                    -
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className={"d-inline-flex justify-content-evenly w-100"}>
+                                            <div className={"btn-group-vertical btn-column col-5 "}>
+
+                                                <button
+                                                    onClick={() => addStats(player.name, 'saque', "saque_ace")}
+                                                    className=" mb-1 btn btn-info"
+                                                    style={{fontSize: "0.7em"}}
+
+                                                >
+                                                    ace
+                                                </button>
+                                                <button
+                                                    onClick={() => addStats(player.name, 'saque', "saque_+")}
+                                                    className=" mb-1 btn btn-success"
+                                                    style={{fontSize: "0.7em"}}
+
+                                                >
+                                                    +
+                                                </button>
+                                                <button
+                                                    onClick={() => addStats(player.name, 'saque', "saque_-")}
+                                                    className=" mb-1 btn btn-warning"
+                                                    style={{fontSize: "0.7em"}}
+
+                                                >
+                                                    -
+                                                </button>
+
+                                            </div>
+                                            <div className={"btn-group-vertical btn-column col-5"}>
+                                                <button
+                                                    onClick={() => addStats(player.name, 'saque', "saque_error")}
+                                                    className=" mb-1 btn btn-danger"
+                                                    style={{fontSize: "0.7em"}}
+
+                                                >
+                                                    error
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className={"d-inline-flex justify-content-evenly w-100"}>
+                                            <div className={"btn-group-vertical  col-12"}>
+
+                                                <button
+                                                    onClick={() => addStats(player.name, 'error_por_regla', "error_por_regla_error")}
+                                                    className=" mb-1 btn btn-danger"
+                                                    style={{fontSize: "0.7em"}}
+
+                                                >
+                                                    error
+                                                </button>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
