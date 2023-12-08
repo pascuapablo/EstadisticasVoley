@@ -1,7 +1,6 @@
 import React from 'react';
 import './css/app.scss'
-import {read, utils, writeFile} from 'xlsx';
-import {Row} from "react-bootstrap";
+import { utils, writeFile} from 'xlsx';
 
 
 function StatsResults({players, stats}) {

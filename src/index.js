@@ -7,6 +7,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./css/app.scss"
+import 'bootstrap/js/dist/tab.js'
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

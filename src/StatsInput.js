@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Row} from "react-bootstrap";
+import { Row} from "react-bootstrap";
 
 
 function StatsInput({players, onAddStats}) {

@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import PlayerList from "./PlayerList";
 import StatsInput from "./StatsInput";
 import StatsResults from "./StatsResults";
-import {Row, Tab, Tabs} from "react-bootstrap";
-import PlayerInput from "./PlayerInput";
+import {Row} from "react-bootstrap";
+import NewGame from "./NewGame";
 
 function App() {
     const [players, setPlayers] = useState(() => {
@@ -24,8 +24,9 @@ function App() {
     const [stats, setStats] = useState(() => {
         return JSON.parse(localStorage.getItem("stats")) || []
     });
-
-
+    const [gameName, setGameName] = useState(() => {
+        return JSON.parse(localStorage.getItem("gameName")) || ""
+    });
 
     const editPlayer = (oldPlayerIndex, newPlayer) => {
         players.splice(oldPlayerIndex, 1, newPlayer)
@@ -38,8 +39,8 @@ function App() {
 
     }
 
-    const addPlayer = (player) =>{
-        setPlayers([...players,player])
+    const addPlayer = (player) => {
+        setPlayers([...players, player])
     }
 
     const deletePlayer = (index) => {
@@ -52,27 +53,66 @@ function App() {
         localStorage.setItem("stats", JSON.stringify(stats));
     }, [players, stats]);
 
+    function startNewGame() {
+
+    }
+
     return (
-        <div className="col m-3">
-            <Tabs
-                defaultActiveKey="tab1"
-                id="uncontrolled-tab-example"
-                className="mb-4 text-black"
-            >
-                <Tab eventKey="tab1" title="Jugadores ">
+        <div className="col m-3 ">
+            <ul className="nav nav-tabs align-items-center" id="myTab" role="tablist">
+                <li className="nav-item" role="presentation">
+                    <button className="nav-link active" id="players-tab" data-bs-toggle="tab"
+                            data-bs-target="#players-tab-pane" type="button" role="tab" aria-controls="players-tab-pane"
+                            aria-selected="true">Jugadores
+                    </button>
+                </li>
+                <li className="nav-item" role="presentation">
+                    <button className="nav-link" id="stats-input-tab" data-bs-toggle="tab"
+                            data-bs-target="#stats-input-tab-pane" type="button" role="tab" aria-controls="stats-input-tab-pane"
+                            aria-selected="false">Estadisticas
+                    </button>
+                </li>
+                <li className="nav-item" role="presentation">
+                    <button className="nav-link" id="stats-results" data-bs-toggle="tab"
+                            data-bs-target="#stats-results-pane" type="button" role="tab" aria-controls="stats-results-pane"
+                            aria-selected="false">Resultados
+                    </button>
+                </li>
+                <li className="ms-auto ">
+                    <button className="btn btn-sm btn-primary text-light align-middle" onClick={() => (startNewGame())}>Empezar partido
+                    </button>
+                </li>
+            </ul>
+
+            <div className={"row my-4 text-center"}>
+                <h5>
+                    Mariano Moreno vs Estudiantes
+                </h5>
+            </div>
+
+             <div className="tab-content " id="myTabContent">
+                <div className="tab-pane fade show active" id="players-tab-pane" role="tabpanel" aria-labelledby="players-tab"
+                     tabIndex="0">
                     <Row>
-                        <PlayerList players={players} onDeletePlayer={deletePlayer} onEditPlayer={editPlayer} onAddPlayer={addPlayer}/>
+                        <PlayerList players={players} onDeletePlayer={deletePlayer} onEditPlayer={editPlayer}
+                                    onAddPlayer={addPlayer}/>
                     </Row>
-
-
-                </Tab>
-                <Tab eventKey="tab2" title="Estadisticas">
+                </div>
+                <div className="tab-pane fade" id="stats-input-tab-pane" role="tabpanel" aria-labelledby="stats-input-tab"
+                     tabIndex="0">
                     <StatsInput players={players} onAddStats={addStats}/>
-                </Tab>
-                <Tab eventKey="tab3" title="Resultados" className={"text-black"}>
-                    <StatsResults stats={stats} players={players}></StatsResults> </Tab>
 
-            </Tabs>
+                </div>
+                <div className="tab-pane fade" id="stats-results-pane" role="tabpanel" aria-labelledby="stats-results"
+                     tabIndex="0">
+                    <StatsResults stats={stats} players={players}></StatsResults>
+                </div>
+                <div className="tab-pane fade" id="stats-results-pane" role="tabpanel" aria-labelledby="stats-results"
+                     tabIndex="0">
+                    <StatsResults stats={stats} players={players}></StatsResults>
+                </div>
+
+            </div>
 
         </div>
     );
