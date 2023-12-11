@@ -28,7 +28,7 @@ function PlayerInput({onAddPlayer, onCancel, show}) {
     }
     return (
         <>
-            <Modal show={show} onHide={handleCancel} fullscreen={true}>
+            <Modal id="myModal" show={show} onHide={handleCancel}  centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Agregar jugador</Modal.Title>
                 </Modal.Header>

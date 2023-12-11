@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Row} from "react-bootstrap";
+import {Row} from "react-bootstrap";
 
 
 function StatsInput({players, onAddStats}) {
@@ -81,9 +81,6 @@ function StatsInput({players, onAddStats}) {
                                                     onClick={() => addStats(player.name, 'recepcion', "recepcion_ace")}
                                                     className=" mb-1 btn btn-danger"
                                                     style={{fontSize: "0.7em"}}
-
-                                                    style={{fontSize: "0.7em"}}
-
                                                 >
                                                     Ace
                                                 </button>
