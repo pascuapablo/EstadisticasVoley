@@ -1,21 +1,18 @@
 import {Container, Navbar, Nav} from "react-bootstrap";
 import React from "react";
+import {useLocation} from "react-router-dom";
 
 function MyNav() {
-    const addActiveClass = (componentPath) => {
-        let isActive = window.location.pathname === componentPath;
-        return isActive ? 'active' : '';
-    }
+    const location = useLocation();
 
     const shouldShowGoBackLogo = () => {
-        return window.location.pathname === '/EstadisticasVoley/cambios'
+         return location.pathname.indexOf( 'cambios') !== -1
     }
 
     return (
         <Navbar bg="secondary" data-bs-theme="dark">
-            <Container fluid>
-
-                <Navbar.Brand href="/EstadisticasVoley">
+            <Container fluid className={"justify-content-start  align-content-center"}>
+                <Navbar.Brand href="/EstadisticasVoley/#" className={"d-flex"}>
                     {shouldShowGoBackLogo() ? <i className="bi bi-arrow-left"></i>
                         :
                         <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512">
@@ -24,11 +21,14 @@ function MyNav() {
                         </svg>}
 
                 </Navbar.Brand>
-                <Nav className="me-auto">
-                    <Nav.Link href="/EstadisticasVoley"
-                              className={addActiveClass("/EstadisticasVoley")}>Estadisticas</Nav.Link>
-                    <Nav.Link href="/EstadisticasVoley/resultados"
-                              className={addActiveClass("/EstadisticasVoley/resultados")}>Resultados</Nav.Link>
+                <Nav  className={"w-100"}>
+                    <Nav.Link   href="/EstadisticasVoley/#"
+                              >Estadisticas</Nav.Link>
+                    <Nav.Link href="/EstadisticasVoley/#resultados"
+                              >Resultados</Nav.Link>
+
+                    <Nav.Link className={"ms-auto "} href="/EstadisticasVoley/#newgame"> Nuevo partido</Nav.Link>
+
                 </Nav>
             </Container>
         </Navbar>)

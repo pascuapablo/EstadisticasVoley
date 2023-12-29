@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {Button, Col, Form, Modal, Row} from "react-bootstrap";
+import { Col, Container, Form, Modal, Row} from "react-bootstrap";
 
 
-function NewGame({onNewGame, onCancel, show}) {
+function NewGame({onNewGame}) {
 
     const [gameName, setGameName] = useState('');
 
@@ -11,49 +11,42 @@ function NewGame({onNewGame, onCancel, show}) {
     }
 
     const handleSubmit = () => {
-
         onNewGame(gameName)
         cleanState()
     }
 
+    return (<>
+            <h3 className={"my-2 text-center"}>Nuevo Partido</h3>
+        <Container>
+            <Row>
+                <Form>
+                    <Form.Group className="mb-3" as={Row}>
+                        <Form.Label column sm={5}>
+                            Mariano Moreno vs.
+                        </Form.Label>
+                        <Col sm={7}>
+                            <Form.Control type="text" placeholder="Equipo" value={gameName}
+                                          onChange={e => setGameName(e.target.value)}/>
+                        </Col>
+                    </Form.Group>
 
-    const handleCancel = () => {
-        onCancel()
-        cleanState()
-    }
-    return (
-        <>
-            <Modal show={show} onHide={handleCancel} >
-                <Modal.Header closeButton>
-                    <Modal.Title>Nuevo partido</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Group className="mb-3" as={Row}>
-                            <Form.Label column sm={5}>
-                                Mariano Moreno vs.
-                            </Form.Label>
-                            <Col sm={7}>
-                                <Form.Control type="text" placeholder="Equipo" value={gameName}
-                                              onChange={e => setGameName(e.target.value)}/>
-                            </Col>
-                        </Form.Group>
+                </Form>
+            </Row>
 
-                    </Form>
+            <Row>
+                <a href="/EstadisticasVoley/#" className={"btn btn-primary text-light ms-auto col-3 col-sm-2 mx-3 my-3"}
+                   onClick={handleSubmit}>
+                    A jugar!
+                </a>
+            </Row>
 
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCancel}>
-                        Cerrar
-                    </Button>
-                    <Button variant="primary" className={"text-light"} onClick={handleSubmit}>
-                        A jugar!
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </>
-    )
-        ;
+            <div className={" text-secondary"}>
+                Si empezas un partido nuevo las estadísticas se borran.&nbsp;
+                <a className={"link-secondary"} href="/EstadisticasVoley/#resultados">Descargalas</a>
+                 &nbsp;si no las queres perder
+            </div>
+        </Container>
+    </>);
 }
 
-export default NewGame ;
+export default NewGame;

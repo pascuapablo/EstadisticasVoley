@@ -5,7 +5,7 @@ import {utils, writeFile} from 'xlsx';
 
 function StatsResults({players, stats,gameName}) {
 
-    const buttonClick = () => {
+    const downloadStats = () => {
         var tbl = document.getElementById('sheetjs');
         /* create a workbook */
         var wb = utils.table_to_book(tbl);
@@ -23,7 +23,7 @@ function StatsResults({players, stats,gameName}) {
             <div className="table-responsive">
 
                 <div className={"d-flex justify-content-end"}>
-                    <button className={"btn btn-primary text-light my-3 "} onClick={buttonClick}>Descargar</button>
+                    <button className={"btn btn-primary text-light my-3 "} onClick={downloadStats}>Descargar</button>
                 </div>
 
                 <table className="table table-bordered align-middle text-center" id={"sheetjs"}>

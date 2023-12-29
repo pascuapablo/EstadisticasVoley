@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import PlayerList from "./pages/PlayerList";
 import StatsResults from "./pages/StatsResults";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {HashRouter, Route, Routes} from "react-router-dom";
 import ComputeStatistics from "./pages/ComputeStatistics";
 import MyNav from "./pages/Nav";
+import NewGame from "./NewGame";
 
 function App() {
+
     const [players, setPlayers] = useState(() => {
         return JSON.parse(localStorage.getItem("players")) || [
             {name: 'Mario', position: 'Punta', isInCourt: true, number: 1},
@@ -24,9 +26,10 @@ function App() {
         return JSON.parse(localStorage.getItem("stats")) || []
     });
     const [gameName, setGameName] = useState(() => {
-        return JSON.parse(localStorage.getItem("gameName")) || "MM amarillo"
+        console.log("entro", localStorage.getItem("gameName"))
+        return localStorage.getItem("gameName") || "MM amarillo"
+
     });
-    const [showNewGameModal, setShowNewGameModal] = useState(false);
 
     const editPlayer = (oldPlayerIndex, newPlayer) => {
         players.splice(oldPlayerIndex, 1, newPlayer)
@@ -48,45 +51,39 @@ function App() {
         setPlayers([...players]);
     }
 
-    function startNewGame() {
-        setShowNewGameModal(true)
-    }
-
-    function handleCancelNewGameModal() {
-        setShowNewGameModal(false)
-    }
-
     function handleOnNewGame(oppositeTeam) {
+        console.log("gameName", oppositeTeam)
         setGameName(oppositeTeam)
-        setShowNewGameModal(false)
+        setStats([])
     }
-
 
 
     useEffect(() => {
         localStorage.setItem("players", JSON.stringify(players));
         localStorage.setItem("stats", JSON.stringify(stats));
-    }, [players, stats]);
+        localStorage.setItem("gameName", gameName);
+    }, [players, stats, gameName]);
 
 
     return (
         <>
-            <MyNav></MyNav>
-
-            <BrowserRouter>
+            <HashRouter>
+                <MyNav></MyNav>
                 <Routes>
-                    <Route path="/EstadisticasVoley" element={<ComputeStatistics gameName={gameName} players={players}
-                                                                                 addStats={addStats}></ComputeStatistics>}></Route>
-                    <Route path="/EstadisticasVoley/resultados"
+                    <Route path="/" element={<ComputeStatistics gameName={gameName} players={players}
+                                                                addStats={addStats}></ComputeStatistics>}></Route>
+                    <Route path="/resultados"
                            element={<StatsResults stats={stats} players={players} gameName={gameName}></StatsResults>}/>
-                    <Route path="/EstadisticasVoley/cambios"
+                    <Route path="/cambios"
                            element={<PlayerList players={players} onAddPlayer={addPlayer} onDeletePlayer={deletePlayer}
                                                 onEditPlayer={editPlayer}></PlayerList>}/>
-                    <Route path="/EstadisticasVoley/test"
+                    <Route path="/newgame"
+                           element={<NewGame onNewGame={handleOnNewGame}></NewGame>}/>
+                    <Route path="/test"
                            element={<ComputeStatistics gameName={gameName} players={players}
                                                        addStats={addStats}></ComputeStatistics>}/>
                 </Routes>
-            </BrowserRouter>
+            </HashRouter>
         </>
     );
 }
