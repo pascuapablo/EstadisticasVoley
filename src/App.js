@@ -27,7 +27,7 @@ function App() {
     });
     const [gameName, setGameName] = useState(() => {
         console.log("entro", localStorage.getItem("gameName"))
-        return localStorage.getItem("gameName") || "MM amarillo"
+        return localStorage.getItem("gameName") || "Pueblo Nuevo"
 
     });
 
