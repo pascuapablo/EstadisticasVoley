@@ -1,0 +1,5 @@
+export const ARMADOR = "Armador"
+export const CENTRAL = "Central"
+export const OPUESTO = "Opuesto"
+export const PUNTA = "Punta"
+export const LIBERO = "Libero"

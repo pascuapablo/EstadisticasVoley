@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Form, Modal} from "react-bootstrap";
+import {ARMADOR, CENTRAL, LIBERO, OPUESTO, PUNTA} from "./const/Positions";
 
 
 function PlayerInput({onAddPlayer, onCancel, show}) {
@@ -16,7 +17,7 @@ function PlayerInput({onAddPlayer, onCancel, show}) {
     const handleSubmit = (e) => {
         console.log(e)
         console.log(playerNumber, playerName, playerPosition)
-        onAddPlayer(playerName,  playerPosition,  playerNumber)
+        onAddPlayer(playerName, playerPosition, playerNumber)
 
         cleanState()
     }
@@ -28,7 +29,7 @@ function PlayerInput({onAddPlayer, onCancel, show}) {
     }
     return (
         <>
-            <Modal id="myModal" show={show} onHide={handleCancel}  centered>
+            <Modal id="myModal" show={show} onHide={handleCancel} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Agregar jugador</Modal.Title>
                 </Modal.Header>
@@ -43,11 +44,11 @@ function PlayerInput({onAddPlayer, onCancel, show}) {
                             <option value="" disabled style={{display: 'none'}}>
                                 Posición
                             </option>
-                            <option value={"Armador"}>Armador</option>
-                            <option value={"Punta"}>Punta</option>
-                            <option value={"Central"}>Central</option>
-                            <option value={"Opuesto"}>Opuesto</option>
-                            <option value={"Libero"}>Libero</option>
+                            <option value={ARMADOR}>Armador</option>
+                            <option value={PUNTA}>Punta</option>
+                            <option value={CENTRAL}>Central</option>
+                            <option value={OPUESTO}>Opuesto</option>
+                            <option value={LIBERO}>Libero</option>
 
                         </Form.Select>
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import {Row} from "react-bootstrap";
+import {ARMADOR, CENTRAL, LIBERO, OPUESTO, PUNTA} from "./const/Positions";
 
 
 function StatsInput({players, onAddStats}) {
@@ -8,6 +9,17 @@ function StatsInput({players, onAddStats}) {
         onAddStats(playerName, action, pointValue);
     }
 
+    const sortingFunction = (a, b) => {
+
+        const order = [LIBERO, PUNTA, OPUESTO, CENTRAL, ARMADOR]
+        const aIndex = order.indexOf(a.position);
+        const bIndex = order.indexOf(b.position);
+        if(aIndex !== bIndex) {
+            return aIndex - bIndex;
+        }
+        return a.name.localeCompare(b.name);
+
+    }
 
     return (
         <>
@@ -30,7 +42,7 @@ function StatsInput({players, onAddStats}) {
                         {players
                             .slice()
                             .filter((player) => player.isInCourt)
-                            .sort((a, b) => a.position.localeCompare(b.position))
+                            .sort(sortingFunction)
                             .map((player, index) => (
                                 <tr
                                     key={index}
