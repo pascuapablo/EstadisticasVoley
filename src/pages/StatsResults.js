@@ -9,8 +9,10 @@ function StatsResults({players, stats,gameName}) {
         var tbl = document.getElementById('sheetjs');
         /* create a workbook */
         var wb = utils.table_to_book(tbl);
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         /* export to file */
-        writeFile(wb, "SheetJSTable.xlsx");
+        writeFile(wb, `${date}_vs_${gameName}.xlsx`);
     }
 
     return (
