@@ -1,18 +1,83 @@
-import React from "react";
-import { Row} from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import {Button, Modal, Row, Toast} from "react-bootstrap";
 import StatsInput from "../StatsInput";
 
-function ComputeStatistics({gameName,players,addStats}) {
+function ComputeStatistics({gameName, players, addStats}) {
+    const [showChangeSetModal, setShowChangeSetModal] = useState(false)
+
+    const [localScore, setLocalScore] = useState(() => {
+        return parseInt(localStorage.getItem("localScore")) || 0
+    });
+    const [visitScore, setVisitScore] = useState(() => {
+        return parseInt(localStorage.getItem("visitScore")) || 0
+    });
+
+    const [results, setResults] = useState(() => {
+        return JSON.parse(localStorage.getItem("results")) || []
+    });
+
+    useEffect(() => {
+        localStorage.setItem("visitScore", visitScore.toString());
+        localStorage.setItem("localScore", localScore.toString());
+        localStorage.setItem("results", JSON.stringify(results));
+    }, [localScore, visitScore,results]);
+
+    const shouldChangeSet = (local, visit) => {
+        const differenceIsMoreThanTwo = Math.abs(local - visit) >= 2
+        return (local >= 25 || visit >= 25) && differenceIsMoreThanTwo
+    }
+
+    const changeScore = (local, visit) => {
+
+        if (shouldChangeSet(localScore+local, visitScore + visit)){
+            setShowChangeSetModal(true);
+        }
+        if (local) {
+            setLocalScore(localScore + local)
+        }
+        if (visit) {
+            setVisitScore(visitScore + visit)
+        }
+
+    }
+
+    const handleAddStats = (playerName, action, pointValue, scoreAction) => {
+        addStats(playerName, action, pointValue);
+        if (scoreAction === "ADD_TO_LOCAL") changeScore(1, 0)
+        if (scoreAction === "ADD_TO_VISIT") changeScore(0, 1)
+    }
+
+
+    function startNewSet() {
+        setResults([...results, {local: localScore, visit: visitScore}])
+
+        setLocalScore(0)
+        setVisitScore(0)
+        setShowChangeSetModal(false);
+    }
+
     return (
 
         <div className="col m-3 ">
-            <div className={"row my-4 text-center"}>
-                <h5>
-                    Mariano Moreno vs {gameName}
-                </h5>
+            <div className={"text-center d-flex justify-content-center"}>
+                <Button className="btn-success m-2 circle-btn"
+                        onClick={() => changeScore(1, 0)}>+1</Button>
+                <div>
+                    <h5>{localScore}<sup>{results.filter(set => set.local>set.visit).length}</sup></h5>
+                    <div>Mariano Moreno</div>
+                </div>
+                <div>
+                    vs
+                </div>
+                <div>
+                    <h5>{visitScore}<sup>{results.filter(set => set.local<set.visit).length}</sup></h5>
+                    <div>{gameName}</div>
+                </div>
+                <Button className="btn-danger m-2 circle-btn"
+                        onClick={() => changeScore(0, 1)}>+1</Button>
             </div>
             <Row>
-                <a href={"/EstadisticasVoley/#cambios"}  className={"btn btn-primary ms-3 col-2 col-sm-1"}>
+                <a href={"/EstadisticasVoley/#cambios"} className={"btn btn-primary ms-3 col-2 col-sm-1"}>
                     <svg xmlns="http://www.w3.org/2000/svg" height="16" width="20"
                          viewBox="0 0 640 512">
                         <path fill="#ffffff"
@@ -21,7 +86,28 @@ function ComputeStatistics({gameName,players,addStats}) {
                 </a>
 
             </Row>
-            <StatsInput players={players} onAddStats={addStats}/>
+            <Modal show={showChangeSetModal}>
+                <Modal.Header>
+                    <strong className="me-auto">Fin de set!</strong>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className={"text-center d-flex justify-content-around"}>
+                        <div>
+                            <h5>{localScore}</h5>
+                            <div>Mariano Moreno</div>
+                        </div>
+                        <div>
+                            <h5>{visitScore}</h5>
+                            <div>{gameName}</div>
+                        </div>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant={"outline-secondary"}>Corregir marcador</Button>
+                    <Button variant={"primary text-light"} onClick={startNewSet}>Empezar otro set</Button>
+                </Modal.Footer>
+            </Modal>
+            <StatsInput players={players} onAddStats={handleAddStats}/>
         </div>
     );
 }

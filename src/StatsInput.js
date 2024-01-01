@@ -1,4 +1,3 @@
-import React from 'react';
 import {Row} from "react-bootstrap";
 import {ARMADOR, CENTRAL, LIBERO, OPUESTO, PUNTA} from "./const/Positions";
 
@@ -6,7 +5,16 @@ import {ARMADOR, CENTRAL, LIBERO, OPUESTO, PUNTA} from "./const/Positions";
 function StatsInput({players, onAddStats}) {
 
     const addStats = (playerName, action, pointValue) => {
-        onAddStats(playerName, action, pointValue);
+        const pointValueToLocalTeam = ["ataque_++", "contraataque_++", "bloqueo_+", "saque_ace"]
+        const pointValueToVisitTeam = ["recepcion_saque_ganado", "recepcion_ace", "ataque_error_de_bloqueo",
+            "ataque_error", "contraataque_error_de_bloqueo", "contraataque_error", "bloqueo_-", "saque_error",
+            "error_por_regla_error"]
+
+        var scoreAction = "NOTHING"
+        if(pointValueToLocalTeam.includes(pointValue)) scoreAction="ADD_TO_LOCAL";
+        if(pointValueToVisitTeam.includes(pointValue)) scoreAction="ADD_TO_VISIT";
+
+        onAddStats(playerName, action, pointValue,scoreAction);
     }
 
     const sortingFunction = (a, b) => {
@@ -14,7 +22,7 @@ function StatsInput({players, onAddStats}) {
         const order = [LIBERO, PUNTA, OPUESTO, CENTRAL, ARMADOR]
         const aIndex = order.indexOf(a.position);
         const bIndex = order.indexOf(b.position);
-        if(aIndex !== bIndex) {
+        if (aIndex !== bIndex) {
             return aIndex - bIndex;
         }
         return a.name.localeCompare(b.name);

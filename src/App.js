@@ -26,7 +26,6 @@ function App() {
         return JSON.parse(localStorage.getItem("stats")) || []
     });
     const [gameName, setGameName] = useState(() => {
-        console.log("entro", localStorage.getItem("gameName"))
         return localStorage.getItem("gameName") || "Pueblo Nuevo"
 
     });
