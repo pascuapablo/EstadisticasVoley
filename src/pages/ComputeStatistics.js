@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Modal, Row, Toast} from "react-bootstrap";
+import {Button, Modal, Row} from "react-bootstrap";
 import StatsInput from "../StatsInput";
 
 function ComputeStatistics({gameName, players, addStats}) {
@@ -71,7 +71,7 @@ function ComputeStatistics({gameName, players, addStats}) {
                 </div>
                 <div>
                     <h5>{visitScore}<sup>{results.filter(set => set.local<set.visit).length}</sup></h5>
-                    <div>{gameName}</div>
+                    <div style={{minWidth: "118px"}}>{gameName}</div>
                 </div>
                 <Button className="btn-danger m-2 circle-btn"
                         onClick={() => changeScore(0, 1)}>+1</Button>
