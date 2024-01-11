@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Modal, Row} from "react-bootstrap";
+import {Button, Modal, Row, Form} from "react-bootstrap";
 import StatsInput from "../StatsInput";
 
 function ComputeStatistics({gameName, players, addStats}) {
@@ -20,7 +20,12 @@ function ComputeStatistics({gameName, players, addStats}) {
         localStorage.setItem("visitScore", visitScore.toString());
         localStorage.setItem("localScore", localScore.toString());
         localStorage.setItem("results", JSON.stringify(results));
-    }, [localScore, visitScore,results]);
+    }, [localScore, visitScore, results]);
+
+
+    const [showScoreInputs, setShowScoreInputs] = useState(false);
+    const [editLocalStoreCounter, setEditLocalStoreCounter] = useState(0);
+    const [editVisitScoreCounter, setEditVisitScoreCounter] = useState(0);
 
     const shouldChangeSet = (local, visit) => {
         const differenceIsMoreThanTwo = Math.abs(local - visit) >= 2
@@ -28,14 +33,13 @@ function ComputeStatistics({gameName, players, addStats}) {
     }
 
     const changeScore = (local, visit) => {
-
-        if (shouldChangeSet(localScore+local, visitScore + visit)){
+        if (shouldChangeSet(localScore + local, visitScore + visit)) {
             setShowChangeSetModal(true);
         }
-        if (local) {
+        if (local && localScore + local >= 0) {
             setLocalScore(localScore + local)
         }
-        if (visit) {
+        if (visit && visitScore + visit >= 0) {
             setVisitScore(visitScore + visit)
         }
 
@@ -59,22 +63,30 @@ function ComputeStatistics({gameName, players, addStats}) {
     return (
 
         <div className="col m-3 ">
-            <div className={"text-center d-flex justify-content-center"}>
-                <Button className="btn-success m-2 circle-btn"
-                        onClick={() => changeScore(1, 0)}>+1</Button>
+            <div className={"text-center d-flex justify-content-center align-items-center"}>
+
+                <div className={"d-flex flex-column align-items-center"}>
+                    <Button className="btn-success m-2 circle-btn"
+                            onClick={() => changeScore(1, 0)}>+1</Button>
+                    <Button className="btn-success m-2 circle-btn circle-btn-small"
+                            onClick={() => changeScore(-1, 0)}>-1</Button>
+                </div>
                 <div>
-                    <h5>{localScore}<sup>{results.filter(set => set.local>set.visit).length}</sup></h5>
+                    <h5>{localScore}<sup>{results.filter(set => set.local > set.visit).length}</sup></h5>
                     <div>Mariano Moreno</div>
                 </div>
+
                 <div>
-                    vs
-                </div>
-                <div>
-                    <h5>{visitScore}<sup>{results.filter(set => set.local<set.visit).length}</sup></h5>
+                    <h5>{visitScore}<sup>{results.filter(set => set.local < set.visit).length}</sup></h5>
                     <div style={{minWidth: "118px"}}>{gameName}</div>
                 </div>
-                <Button className="btn-danger m-2 circle-btn"
-                        onClick={() => changeScore(0, 1)}>+1</Button>
+                <div className={"d-flex flex-column align-items-center"}>
+                    <Button className="btn-danger m-2 circle-btn"
+                            onClick={() => changeScore(0, 1)}>+1</Button>
+                    <Button className="btn-danger m-2 circle-btn circle-btn-small"
+                            onClick={() => changeScore(0, -1)}>-1</Button>
+                </div>
+
             </div>
             <Row>
                 <a href={"/EstadisticasVoley/#cambios"} className={"btn btn-primary ms-3 col-2 col-sm-1"}>
@@ -86,10 +98,14 @@ function ComputeStatistics({gameName, players, addStats}) {
                 </a>
 
             </Row>
-            <Modal show={showChangeSetModal}>
-                <Modal.Header>
+            <Modal show={showChangeSetModal} onHide={() => {
+                setShowChangeSetModal(false)
+            }}>
+                <Modal.Header closeButton={true}>
                     <strong className="me-auto">Fin de set!</strong>
+
                 </Modal.Header>
+
                 <Modal.Body>
                     <div className={"text-center d-flex justify-content-around"}>
                         <div>
@@ -103,10 +119,52 @@ function ComputeStatistics({gameName, players, addStats}) {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant={"outline-secondary"}>Corregir marcador</Button>
+                    <Button variant={"outline-secondary"} onClick={() => {
+                        setShowScoreInputs(true)
+                        setEditLocalStoreCounter(localScore)
+                        setEditVisitScoreCounter(visitScore)
+                    }}>Corregir marcador</Button>
                     <Button variant={"primary text-light"} onClick={startNewSet}>Empezar otro set</Button>
                 </Modal.Footer>
             </Modal>
+
+            <Modal show={showScoreInputs}>
+                <Modal.Header>
+                    <strong className="me-auto">Fin de set!</strong>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className={"text-center d-flex justify-content-around"}>
+                        <div>
+                            <Form.Control className={"text-center mx-auto w-50"} type="number"
+                                          value={editLocalStoreCounter}
+                                          onChange={(e) => setEditLocalStoreCounter(parseInt(e.target.value))}/>
+                            <div>Mariano Moreno</div>
+                        </div>
+                        <div>
+
+                            <Form.Control className={"text-center mx-auto w-50"} type="number"
+                                          value={editVisitScoreCounter}
+                                          onChange={(e) => setEditVisitScoreCounter(parseInt(e.target.value))}/>
+                            <div>{gameName}</div>
+                        </div>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant={"outline-secondary"} onClick={() => {
+                        setShowScoreInputs(false);
+                        setEditVisitScoreCounter(0)
+                        setEditLocalStoreCounter(0)
+                    }}>Cancelar</Button>
+                    <Button variant={"primary text-light"} onClick={() => {
+                        setLocalScore(editLocalStoreCounter)
+                        setVisitScore(editVisitScoreCounter)
+                        setShowScoreInputs(false);
+                        setEditVisitScoreCounter(0)
+                        setEditLocalStoreCounter(0)
+                    }}>Corregir</Button>
+                </Modal.Footer>
+            </Modal>
+
             <StatsInput players={players} onAddStats={handleAddStats}/>
         </div>
     );

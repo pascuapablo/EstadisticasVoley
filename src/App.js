@@ -54,13 +54,18 @@ function App() {
         console.log("gameName", oppositeTeam)
         setGameName(oppositeTeam)
         setStats([])
+
+        // MUY MUY MALA PRACTICA. HAY QUE USAR REDUX (?)
+        localStorage.setItem("visitScore","0");
+        localStorage.setItem("localScore", "0");
+        localStorage.setItem("results", "[]");
     }
 
 
     useEffect(() => {
         localStorage.setItem("players", JSON.stringify(players));
         localStorage.setItem("stats", JSON.stringify(stats));
-        localStorage.setItem("gameName", gameName);
+        localStorage.setItem("gameName", gameName.toString());
     }, [players, stats, gameName]);
 
 
