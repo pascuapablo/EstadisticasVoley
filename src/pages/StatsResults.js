@@ -3,20 +3,31 @@ import '../css/app.scss'
 import {utils, writeFile} from 'xlsx';
 
 
-function StatsResults({players, stats,gameName}) {
+function StatsResults({players, stats, gameName}) {
+
 
     const downloadStats = () => {
         var tbl = document.getElementById('sheetjs');
         /* create a workbook */
-        var wb = utils.table_to_book(tbl);
+        const wb = utils.book_new();
+        let worksheet = utils.json_to_sheet([
+            ["", "Mariano Moreno", gameName],
+            ["Set 1", 25, 14],
+            ["Set 2", 25, 12],
+            ["Set 3", 25, 15],
+
+        ],{skipHeader: true});
+
+        utils.book_append_sheet(wb, worksheet, 'Resultado');
+        utils.book_append_sheet(wb,  utils.table_to_sheet(tbl), "Estadisticas")
+
         var today = new Date();
-        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         /* export to file */
         writeFile(wb, `${date}_vs_${gameName}.xlsx`);
     }
 
-    return (
-        <div className="col m-3 ">
+    return (<div className="col m-3 ">
             <div className={"row my-4 text-center"}>
                 <h5>
                     Mariano Moreno vs {gameName}
@@ -76,8 +87,7 @@ function StatsResults({players, stats,gameName}) {
                         .slice()
                         .filter((player) => stats.filter(stat => stat.playerName === player.name).length > 0)
                         .sort((a, b) => a.position.localeCompare(b.position))
-                        .map((player, index) => (
-                            <tr
+                        .map((player, index) => (<tr
                                 key={index}
                                 className="table-row"
                             >
@@ -112,14 +122,12 @@ function StatsResults({players, stats,gameName}) {
                                 <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "saque").length}</td>
                                 <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "error_por_regla").length}</td>
 
-                            </tr>
-                        ))}
+                            </tr>))}
                     </tbody>
                 </table>
 
             </div>
-        </div>
-    );
+        </div>);
 }
 
 export default StatsResults;
