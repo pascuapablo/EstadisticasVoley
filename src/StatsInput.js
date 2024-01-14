@@ -95,7 +95,8 @@ function StatsInput({players, onAddStats}) {
                                                     style={{fontSize: "0.7em"}}
 
                                                 >
-                                                    S. ganado
+                                                    <div>Saque</div>
+                                                    <div>ganador</div>
                                                 </button>
                                                 <button
                                                     onClick={() => addStats(player.name, 'recepcion', "recepcion_ace")}

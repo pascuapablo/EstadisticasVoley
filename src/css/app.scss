@@ -11,6 +11,7 @@ $btn-active-bg-tint-amount:       80%;
 $btn-active-border-shade-amount:  85%;
 $btn-active-border-tint-amount:   80%;
 
+
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
 
@@ -21,6 +22,8 @@ $btn-active-border-tint-amount:   80%;
 .dropdown-menu.show {
   --bs-dropdown-min-width: 0em;
 }
+
+.btn{--bs-btn-padding-x: 0.3rem;}
 
 
 
