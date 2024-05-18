@@ -5,7 +5,30 @@ import {utils, writeFile} from 'xlsx';
 
 function StatsResults({players, stats, gameName}) {
 
-
+const scoreValueMap = {
+    "recepcion_++":0,
+    "recepcion_+":0,
+    "recepcion_-":0,
+    "recepcion_saque_ganado":-1,
+    "recepcion_ace":-1,
+    "ataque_++":1,
+    "ataque_+":0,
+    "ataque_-":0,
+    "ataque_error_de_bloqueo":-1,
+    "ataque_error":-1,
+    "contraataque_++":1,
+    "contraataque_+":0,
+    "contraataque_-":0,
+    "contraataque_error_de_bloqueo":-1,
+    "contraataque_error":-1,
+    "bloqueo_+":1,
+    "bloqueo_def":0,
+    "bloqueo_-":-1,
+    "saque_ace":1,
+    "saque_+":0,
+    "saque_-":0,
+    "saque_error":-1
+    };
     function buildScore(results, localScore, visitScore) {
         const finalResult = results.map((result, index) => {
             return [
@@ -109,28 +132,28 @@ function StatsResults({players, stats, gameName}) {
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "recepcion" && stat.pointValue === "recepcion_-").length}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "recepcion" && stat.pointValue === "recepcion_saque_ganado").length}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "recepcion" && stat.pointValue === "recepcion_ace").length}</td>
-                        <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "recepcion").length}</td>
+                        <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "recepcion").map(a => scoreValueMap[a.pointValue]).reduce((accumulator, currentValue) => accumulator + currentValue, 0)}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "ataque" && stat.pointValue === "ataque_++").length}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "ataque" && stat.pointValue === "ataque_+").length}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "ataque" && stat.pointValue === "ataque_-").length}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "ataque" && stat.pointValue === "ataque_error_de_bloqueo").length}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "ataque" && stat.pointValue === "ataque_error").length}</td>
-                        <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "ataque").length}</td>
+                        <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "ataque").map(a => scoreValueMap[a.pointValue]).reduce((accumulator, currentValue) => accumulator + currentValue, 0)}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "contra-ataque" && stat.pointValue === "contraataque_++").length}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "contra-ataque" && stat.pointValue === "contraataque_+").length}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "contra-ataque" && stat.pointValue === "contraataque_-").length}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "contra-ataque" && stat.pointValue === "contraataque_error_de_bloqueo").length}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "contra-ataque" && stat.pointValue === "contraataque_error").length}</td>
-                        <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "contra-ataque").length}</td>
+                        <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "contra-ataque").map(a => scoreValueMap[a.pointValue]).reduce((accumulator, currentValue) => accumulator + currentValue, 0)}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "bloqueo" && stat.pointValue === "bloqueo_+").length}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "bloqueo" && stat.pointValue === "bloqueo_def").length}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "bloqueo" && stat.pointValue === "bloqueo_-").length}</td>
-                        <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "bloqueo").length}</td>
+                        <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "bloqueo").map(a => scoreValueMap[a.pointValue]).reduce((accumulator, currentValue) => accumulator + currentValue, 0)}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "saque" && stat.pointValue === "saque_ace").length}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "saque" && stat.pointValue === "saque_+").length}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "saque" && stat.pointValue === "saque_-").length}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "saque" && stat.pointValue === "saque_error").length}</td>
-                        <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "saque").length}</td>
+                        <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "saque").map(a => scoreValueMap[a.pointValue]).reduce((accumulator, currentValue) => accumulator + currentValue, 0)}</td>
                         <td> {stats.filter(stat => stat.playerName === player.name && stat.action === "error_por_regla").length}</td>
 
                     </tr>))}
