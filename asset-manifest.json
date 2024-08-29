@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/EstadisticasVoley/static/css/main.dc24a1d8.css",
-    "main.js": "/EstadisticasVoley/static/js/main.fd2c0b7c.js",
+    "main.js": "/EstadisticasVoley/static/js/main.764daf5a.js",
     "static/media/bootstrap-icons.woff?": "/EstadisticasVoley/static/media/bootstrap-icons.449ad8adf6ae0424b7ed.woff",
     "static/media/bootstrap-icons.woff2?": "/EstadisticasVoley/static/media/bootstrap-icons.dea24bf5a7646d8b84e7.woff2",
     "static/media/roboto-latin-500-normal.woff2": "/EstadisticasVoley/static/media/roboto-latin-500-normal.f25d774ecfe0996f8eb5.woff2",
@@ -62,10 +62,10 @@
     "static/media/roboto-greek-ext-700-normal.woff": "/EstadisticasVoley/static/media/roboto-greek-ext-700-normal.249853776d22a271b2b5.woff",
     "index.html": "/EstadisticasVoley/index.html",
     "main.dc24a1d8.css.map": "/EstadisticasVoley/static/css/main.dc24a1d8.css.map",
-    "main.fd2c0b7c.js.map": "/EstadisticasVoley/static/js/main.fd2c0b7c.js.map"
+    "main.764daf5a.js.map": "/EstadisticasVoley/static/js/main.764daf5a.js.map"
   },
   "entrypoints": [
     "static/css/main.dc24a1d8.css",
-    "static/js/main.fd2c0b7c.js"
+    "static/js/main.764daf5a.js"
   ]
 }
