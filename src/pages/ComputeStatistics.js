@@ -46,7 +46,8 @@ function ComputeStatistics({gameName, players, addStats}) {
     }
 
     const handleAddStats = (playerName, action, pointValue, scoreAction) => {
-        addStats(playerName, action, pointValue);
+        const setNumber = results.length + 1;
+        addStats(playerName, action, pointValue, setNumber);
         if (scoreAction === "ADD_TO_LOCAL") changeScore(1, 0)
         if (scoreAction === "ADD_TO_VISIT") changeScore(0, 1)
     }

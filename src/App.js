@@ -35,9 +35,9 @@ function App() {
         setPlayers([...players]);
     }
 
-    const addStats = (playerName, action, pointValue) => {
+    const addStats = (playerName, action, pointValue,setNumber) => {
         console.log({playerName, action, pointValue})
-        setStats([...stats, {playerName, action, pointValue}]);
+        setStats([...stats, {playerName, action, pointValue, setNumber}]);
 
     }
 
