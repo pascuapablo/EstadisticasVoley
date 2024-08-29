@@ -32,8 +32,7 @@ function StatsResults({players, stats, gameName}) {
 
     const [statsOfSelectedSet, setStatsOfSelectedSet] = useState(stats)
     const [selectedSet, setSelectedSet] = useState("all")
-    const playedSets = [...Array(Math.max(...stats.map(stat => stat.setNumber))).keys()];
-
+    const playedSets = (stats.length ===0)? [] : [...Array(Math.max(...stats.map(stat => stat.setNumber))).keys()] ;
     function buildScore(results, localScore, visitScore) {
         const finalResult = results.map((result, index) => {
             return [
@@ -67,7 +66,6 @@ function StatsResults({players, stats, gameName}) {
 
         const tbl = document.getElementById('sheetjs');
         utils.book_append_sheet(wb, utils.table_to_sheet(tbl), "Estadisticas totales")
-
         for (let i = 0; i < playedSets.length; i++) {
             filterStatsBaseOnSelectedValue({target: {value: i}});
             await sleep(200);
@@ -113,7 +111,7 @@ function StatsResults({players, stats, gameName}) {
                         <option value="all">Todos los sets</option>
                         {
                             playedSets.map((a, index) => {
-                                return <option key={index} value={index}>{index + 1}</option>
+                                return <option key={index} value={index}>Set {index + 1}</option>
                             })
                         }
                     </select>
