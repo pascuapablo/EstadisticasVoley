@@ -39,8 +39,8 @@ function StatsInput({players, onAddStats}) {
                         <tr className={"text-center align-middle"}>
                             <th className={"col-1"}>Jugador</th>
                             <th style={{minWidth: "150px"}} className={"col-2"}>Recepción</th>
-                            <th style={{minWidth: "100px"}} className={"col-1"}>Bloqueo</th>
                             <th style={{minWidth: "150px"}} className={"col-2"}>Saque</th>
+                            <th style={{minWidth: "100px"}} className={"col-1"}>Bloqueo</th>
                             <th style={{minWidth: "150px"}} className={"col-2"}>Contraataque</th>
                             <th style={{minWidth: "150px"}} className={"col-2"}>Ataque</th>
                             <th style={{minWidth: "100px"}} className={"col-1"}>Error por regla</th>
