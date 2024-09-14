@@ -110,37 +110,6 @@ function StatsInput({players, onAddStats}) {
                                     </td>
                                     <td>
                                         <div className={"d-inline-flex justify-content-evenly w-100"}>
-                                            <div className={"btn-group-vertical col-12"}>
-
-                                                <button
-                                                    onClick={() => addStats(player.name, 'bloqueo', "bloqueo_+")}
-                                                    className=" mb-1 btn btn-info"
-                                                    style={{fontSize: "0.7em"}}
-
-                                                >
-                                                    ++
-                                                </button>
-                                                <button
-                                                    onClick={() => addStats(player.name, 'bloqueo', "bloqueo_def")}
-                                                    className=" mb-1 btn btn-success"
-                                                    style={{fontSize: "0.7em"}}
-
-                                                >
-                                                    def
-                                                </button>
-                                                <button
-                                                    onClick={() => addStats(player.name, 'bloqueo', "bloqueo_-")}
-                                                    className=" mb-1 btn btn-warning"
-                                                    style={{fontSize: "0.7em"}}
-
-                                                >
-                                                    -
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className={"d-inline-flex justify-content-evenly w-100"}>
                                             <div className={"btn-group-vertical btn-column col-5 "}>
 
                                                 <button
@@ -179,6 +148,37 @@ function StatsInput({players, onAddStats}) {
                                                     error
                                                 </button>
 
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className={"d-inline-flex justify-content-evenly w-100"}>
+                                            <div className={"btn-group-vertical col-12"}>
+
+                                                <button
+                                                    onClick={() => addStats(player.name, 'bloqueo', "bloqueo_+")}
+                                                    className=" mb-1 btn btn-info"
+                                                    style={{fontSize: "0.7em"}}
+
+                                                >
+                                                    ++
+                                                </button>
+                                                <button
+                                                    onClick={() => addStats(player.name, 'bloqueo', "bloqueo_def")}
+                                                    className=" mb-1 btn btn-success"
+                                                    style={{fontSize: "0.7em"}}
+
+                                                >
+                                                    def
+                                                </button>
+                                                <button
+                                                    onClick={() => addStats(player.name, 'bloqueo', "bloqueo_-")}
+                                                    className=" mb-1 btn btn-warning"
+                                                    style={{fontSize: "0.7em"}}
+
+                                                >
+                                                    -
+                                                </button>
                                             </div>
                                         </div>
                                     </td>
