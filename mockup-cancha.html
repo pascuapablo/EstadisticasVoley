@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mockup - Cancha de Voley</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* NAVBAR */
+  nav {
+    background: #343a40;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    font-size: 14px;
+  }
+  nav .brand { font-weight: bold; font-size: 16px; }
+  nav a { color: #adb5bd; text-decoration: none; }
+  nav a:hover { color: white; }
+  nav .nuevo-partido { margin-left: auto; background: #495057; padding: 6px 14px; border-radius: 6px; color: white; cursor: pointer; }
+
+  /* MARCADOR */
+  .marcador {
+    background: white;
+    border-bottom: 1px solid #dee2e6;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+  }
+  .equipo { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; }
+  .score-btns { display: flex; flex-direction: column; gap: 4px; }
+  .btn-score {
+    width: 32px; height: 22px; border: none; border-radius: 4px;
+    font-size: 13px; font-weight: bold; cursor: pointer; color: white;
+  }
+  .btn-score.plus { background: #20c997; }
+  .btn-score.minus { background: #fa5252; }
+  .score-display {
+    font-size: 28px; font-weight: 700; color: #212529;
+  }
+  .score-display sup { font-size: 13px; color: #868e96; font-weight: 400; }
+  .vs { color: #868e96; font-size: 13px; font-weight: 500; }
+  .separador { color: #dee2e6; font-size: 28px; }
+
+  /* MAIN */
+  main {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  /* CANCHA */
+  .cancha-wrapper {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    width: 100%;
+    max-width: 480px;
+  }
+  .cancha-titulo {
+    text-align: center;
+    font-size: 12px;
+    color: #868e96;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+  }
+  .cancha {
+    background: #2f9e44;
+    border-radius: 10px;
+    position: relative;
+    width: 330px;
+    height: 220px;
+    margin: 0 auto;
+  }
+  .cancha::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    top: 50%;
+    height: 3px;
+    background: white;
+    opacity: 0.5;
+    transform: translateY(-50%);
+  }
+  .jugador {
+    position: absolute;
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    border: 2.5px solid rgba(255,255,255,0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    user-select: none;
+    /* posición animada, hover separado */
+    transition: top 0.45s cubic-bezier(.4,0,.2,1),
+                left 0.45s cubic-bezier(.4,0,.2,1),
+                background 0.15s, border-color 0.15s, box-shadow 0.15s;
+  }
+  .jugador:hover {
+    background: rgba(255,255,255,0.28);
+    border-color: white;
+  }
+  .jugador.seleccionado {
+    background: rgba(255,255,255,0.9);
+    border-color: white;
+    color: #2f9e44;
+    box-shadow: 0 0 0 4px rgba(255,255,255,0.4);
+  }
+  .jugador .avatar {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .jugador .avatar-placeholder {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+  }
+  .jugador.seleccionado .avatar-placeholder {
+    background: rgba(47,158,68,0.15);
+    color: #2f9e44;
+  }
+  .jugador .nombre {
+    font-size: 10px;
+    font-weight: 700;
+    text-align: center;
+    padding: 0 2px;
+    margin-top: 3px;
+    line-height: 1.2;
+  }
+  .jugador .posicion {
+    font-size: 9px;
+    font-weight: 500;
+    text-align: center;
+    opacity: 0.75;
+    line-height: 1.1;
+  }
+  .num-badge {
+    position: absolute;
+    top: 4px; right: 4px;
+    background: rgba(0,0,0,0.45);
+    color: white;
+    font-size: 10px;
+    font-weight: 800;
+    border-radius: 10px;
+    padding: 1px 5px;
+    line-height: 1.4;
+    pointer-events: none;
+  }
+  .jugador.seleccionado .num-badge {
+    background: #2f9e44;
+  }
+
+  /* PANEL DE STATS */
+  .stats-panel {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    width: 100%;
+    max-width: 480px;
+  }
+  .stats-header {
+    font-size: 13px;
+    color: #868e96;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .stats-header strong { color: #212529; }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .tab {
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: 1.5px solid #dee2e6;
+    background: white;
+    color: #495057;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    flex: 1 1 calc(33% - 6px);
+    text-align: center;
+    transition: all 0.15s;
+  }
+  .tab:hover { border-color: #212529; color: #212529; background: #f8f9fa; }
+
+  /* PASO HEADER */
+  .paso-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .btn-volver {
+    background: none;
+    border: 1.5px solid #dee2e6;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    color: #495057;
+  }
+  .btn-volver:hover { border-color: #868e96; color: #212529; }
+  #tab-activo-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #212529;
+  }
+
+  /* BOTONES DE ACCIÓN */
+  .botones-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .btn-accion {
+    padding: 14px 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .btn-accion:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .btn-accion:not(:disabled):active { transform: scale(0.96); }
+  .btn-verde  { background: #d3f9d8; color: #2b8a3e; }
+  .btn-verde:not(:disabled):hover { background: #b2f2bb; }
+  .btn-azul   { background: #dbe4ff; color: #3b5bdb; }
+  .btn-azul:not(:disabled):hover { background: #bac8ff; }
+  .btn-naranja { background: #fff3bf; color: #e67700; }
+  .btn-naranja:not(:disabled):hover { background: #ffec99; }
+  .btn-rojo   { background: #ffe3e3; color: #c92a2a; }
+  .btn-rojo:not(:disabled):hover { background: #ffc9c9; }
+  .btn-gris   { background: #f1f3f5; color: #495057; }
+  .btn-gris:not(:disabled):hover { background: #e9ecef; }
+
+  /* LOG */
+  .log {
+    width: 100%;
+    max-width: 480px;
+    font-size: 12px;
+    color: #868e96;
+    text-align: center;
+    min-height: 20px;
+  }
+  .log span { color: #2f9e44; font-weight: 600; }
+
+  /* TOGGLE SAQUE/RECEPCION */
+  .toggle-bar {
+    background: white;
+    border-bottom: 1px solid #dee2e6;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .toggle-wrap {
+    display: flex;
+    background: #f1f3f5;
+    border-radius: 10px;
+    padding: 3px;
+    gap: 3px;
+  }
+  .toggle-btn {
+    padding: 8px 28px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    background: transparent;
+    color: #868e96;
+    transition: all 0.15s;
+  }
+  .toggle-btn.activo-saque {
+    background: #f03e3e;
+    color: white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+  .toggle-btn.activo-recibe {
+    background: #1971c2;
+    color: white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <span class="brand">🏐</span>
+  <a href="#">Estadísticas</a>
+  <a href="#">Resultados</a>
+  <span class="nuevo-partido">Nuevo partido</span>
+</nav>
+
+<!-- MARCADOR -->
+<div class="marcador">
+  <div class="equipo">
+    <div class="score-btns">
+      <button class="btn-score plus" onclick="cambiarScore('local', 1)">+1</button>
+      <button class="btn-score minus" onclick="cambiarScore('local', -1)">-1</button>
+    </div>
+    <span>Mariano Moreno</span>
+  </div>
+
+  <div class="score-display" id="score-local">0<sup>0</sup></div>
+  <div class="separador">|</div>
+  <div class="score-display" id="score-visit">0<sup>0</sup></div>
+
+  <div class="equipo">
+    <span>Pueblo Nuevo</span>
+    <div class="score-btns">
+      <button class="btn-score plus" onclick="cambiarScore('visit', 1)">+1</button>
+      <button class="btn-score minus" onclick="cambiarScore('visit', -1)">-1</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main>
+
+  <!-- CANCHA -->
+  <div class="cancha-wrapper">
+    <div class="cancha-titulo">Seleccioná un jugador</div>
+    <div class="cancha" id="cancha"></div>
+  </div>
+
+  <!-- PANEL DE STATS -->
+  <div class="stats-panel">
+    <div class="stats-header" id="stats-header">
+      Seleccioná un jugador para registrar stats
+    </div>
+    <div style="text-align:center; margin-bottom:10px;">
+      <span id="modo-badge" style="display:inline-block; padding:4px 14px; border-radius:20px; font-size:12px; font-weight:700; background:#ffe3e3; color:#c92a2a;">🏐 Sacando</span>
+    </div>
+
+    <!-- PASO 1: TABS -->
+    <div id="paso-tabs">
+      <div class="tabs">
+        <button class="tab" onclick="seleccionarTab('recepcion')">Recepción</button>
+        <button class="tab" onclick="seleccionarTab('saque')">Saque</button>
+        <button class="tab" onclick="seleccionarTab('bloqueo')">Bloqueo</button>
+        <button class="tab" onclick="seleccionarTab('ataque')">Ataque</button>
+        <button class="tab" onclick="seleccionarTab('contraataque')">Contraataque</button>
+        <button class="tab" onclick="seleccionarTab('error')">Error x regla</button>
+      </div>
+    </div>
+
+    <!-- PASO 2: BOTONES -->
+    <div id="paso-botones" style="display:none">
+      <div class="paso-header">
+        <button class="btn-volver" onclick="volverATabs()">← volver</button>
+        <span id="tab-activo-label"></span>
+      </div>
+      <div class="botones-grid" id="botones-grid"></div>
+    </div>
+  </div>
+
+  <!-- LOG -->
+  <div class="log" id="log"></div>
+
+</main>
+
+<script>
+  // ─── DATOS DE JUGADORES ───────────────────────────────────────────────────
+  // Orden en el array = posición de rotación (índice 0 = pos1 = sacador)
+  // Rotación en voley: al ganar el saque, cada jugador avanza un lugar en sentido
+  // horario. En el array: shift left (el sacador va al fondo)
+  let players = [
+    { id: 'nico',  num: 1,  name: 'Nico',  initial: 'N',  img: 'https://i.pravatar.cc/52?img=3',  posicion: 'Punta'    },
+    { id: 'fede',  num: 2,  name: 'Fede',  initial: 'F',  img: null,                               posicion: 'Opuesto'  },
+    { id: 'elias', num: 3,  name: 'Elias', initial: 'E',  img: 'https://i.pravatar.cc/52?img=12', posicion: 'Armador'  },
+    { id: 'mario', num: 4,  name: 'Mario', initial: 'M',  img: null,                               posicion: 'Central'  },
+    { id: 'maxi',  num: 5,  name: 'Maxi',  initial: 'Ma', img: 'https://i.pravatar.cc/52?img=7',  posicion: 'Punta'    },
+    { id: 'pablo', num: 6,  name: 'Pablo', initial: 'P',  img: null,                               posicion: 'Líbero'   },
+  ];
+
+  // Posiciones absolutas de los 6 slots en la cancha (top, left en px)
+  // Layout: [pos4, pos3, pos2] / [pos5, pos6, pos1]
+  // players[i] → slot ROTATION_TO_SLOT[i]
+  const SLOT_POS = [
+    { top: 12,  left: 18  },  // slot 0: pos4 (frente-izq)
+    { top: 12,  left: 120 },  // slot 1: pos3 (frente-centro)
+    { top: 12,  left: 222 },  // slot 2: pos2 (frente-der)
+    { top: 118, left: 18  },  // slot 3: pos5 (fondo-izq)
+    { top: 118, left: 120 },  // slot 4: pos6 (fondo-centro)
+    { top: 118, left: 222 },  // slot 5: pos1 (fondo-der = sacador)
+  ];
+  // players[0]=pos1 → slot5, players[1]=pos2 → slot2, etc.
+  const ROTATION_TO_SLOT = [5, 2, 1, 0, 3, 4];
+
+  // ─── INICIALIZAR CANCHA ───────────────────────────────────────────────────
+  function initCancha() {
+    const cancha = document.getElementById('cancha');
+    players.forEach(p => {
+      const div = document.createElement('div');
+      div.className = 'jugador';
+      div.id = 'pcard-' + p.id;
+      div.onclick = () => seleccionar(p.id);
+      div.innerHTML = playerHTML(p);
+      // sin transición en el render inicial
+      div.style.transition = 'none';
+      cancha.appendChild(div);
+    });
+    posicionarJugadores(false);
+  }
+
+  function playerHTML(p) {
+    const avatarHTML = p.img
+      ? `<img class="avatar" src="${p.img}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="${p.name}">
+         <div class="avatar-placeholder" style="display:none">${p.initial}</div>`
+      : `<div class="avatar-placeholder">${p.initial}</div>`;
+    return `${avatarHTML}
+            <span class="nombre">${p.name} (${p.num})</span>
+            <span class="posicion">${p.posicion}</span>`;
+  }
+
+  function posicionarJugadores(animar) {
+    players.forEach((p, rotIdx) => {
+      const slotIdx = ROTATION_TO_SLOT[rotIdx];
+      const pos = SLOT_POS[slotIdx];
+      const div = document.getElementById('pcard-' + p.id);
+      if (animar) {
+        div.style.transition = 'top 0.45s cubic-bezier(.4,0,.2,1), left 0.45s cubic-bezier(.4,0,.2,1), background 0.15s, border-color 0.15s, box-shadow 0.15s';
+      } else {
+        div.style.transition = 'none';
+      }
+      div.style.top  = pos.top  + 'px';
+      div.style.left = pos.left + 'px';
+    });
+  }
+
+  function rotarEquipo() {
+    // Shift array: pos2→pos1, pos3→pos2, ..., pos1→pos6
+    players = [...players.slice(1), players[0]];
+    posicionarJugadores(true);
+    // Si había un jugador seleccionado, el card sigue siendo el mismo (mismo id)
+  }
+
+  // ─── TABS ─────────────────────────────────────────────────────────────────
+  const TABS = {
+    recepcion: [
+      { label: '++',           cls: 'btn-verde',   key: 'recepcion_++' },
+      { label: '+',            cls: 'btn-azul',    key: 'recepcion_+' },
+      { label: '-',            cls: 'btn-naranja', key: 'recepcion_-' },
+      { label: 'Saque ganador',cls: 'btn-rojo',    key: 'recepcion_saque_ganado' },
+      { label: 'Ace',          cls: 'btn-rojo',    key: 'recepcion_ace' },
+    ],
+    saque: [
+      { label: 'Ace',   cls: 'btn-verde',   key: 'saque_ace' },
+      { label: '+',     cls: 'btn-azul',    key: 'saque_+' },
+      { label: '-',     cls: 'btn-naranja', key: 'saque_-' },
+      { label: 'Error', cls: 'btn-rojo',    key: 'saque_error' },
+    ],
+    bloqueo: [
+      { label: '++',  cls: 'btn-verde',   key: 'bloqueo_+' },
+      { label: 'def', cls: 'btn-azul',    key: 'bloqueo_def' },
+      { label: '-',   cls: 'btn-naranja', key: 'bloqueo_-' },
+    ],
+    ataque: [
+      { label: '++',        cls: 'btn-verde',   key: 'ataque_++' },
+      { label: '+',         cls: 'btn-azul',    key: 'ataque_+' },
+      { label: '-',         cls: 'btn-naranja', key: 'ataque_-' },
+      { label: 'Err/bloqueo', cls: 'btn-rojo', key: 'ataque_error_de_bloqueo' },
+      { label: 'Error',     cls: 'btn-rojo',    key: 'ataque_error' },
+    ],
+    contraataque: [
+      { label: '++',        cls: 'btn-verde',   key: 'contraataque_++' },
+      { label: '+',         cls: 'btn-azul',    key: 'contraataque_+' },
+      { label: '-',         cls: 'btn-naranja', key: 'contraataque_-' },
+      { label: 'Err/bloqueo', cls: 'btn-rojo', key: 'contraataque_error_de_bloqueo' },
+      { label: 'Error',     cls: 'btn-rojo',    key: 'contraataque_error' },
+    ],
+    error: [
+      { label: 'Error x regla', cls: 'btn-rojo', key: 'error_por_regla_error' },
+    ],
+  };
+
+  let jugadorSeleccionado = null;
+  let tabActivo = null;
+  let scoreLocal = 0, scoreVisit = 0;
+  let setLocal = 0, setVisit = 0;
+  let modo = 'sacando'; // 'sacando' | 'recibiendo'
+
+  const LABELS = {
+    recepcion: 'Recepción', saque: 'Saque', bloqueo: 'Bloqueo',
+    ataque: 'Ataque', contraataque: 'Contraataque', error: 'Error x regla'
+  };
+
+  const TABS_POR_MODO = {
+    sacando:    ['saque', 'contraataque', 'bloqueo', 'error'],
+    recibiendo: ['recepcion', 'ataque', 'bloqueo', 'error'],
+  };
+
+  function setModo(m) {
+    modo = m;
+    // actualizar badge de modo
+    const badge = document.getElementById('modo-badge');
+    if (m === 'sacando') {
+      badge.textContent = '🏐 Sacando';
+      badge.style.background = '#ffe3e3'; badge.style.color = '#c92a2a';
+    } else {
+      badge.textContent = '📥 Recibiendo';
+      badge.style.background = '#dbe4ff'; badge.style.color = '#1971c2';
+    }
+    // si el tab activo no está disponible en el nuevo modo, volver a tabs
+    if (tabActivo && !TABS_POR_MODO[modo].includes(tabActivo)) {
+      volverATabs();
+    } else {
+      renderTabs();
+    }
+  }
+
+  function renderTabs() {
+    const tabs = TABS_POR_MODO[modo];
+    document.getElementById('paso-tabs').innerHTML = `
+      <div class="tabs">
+        ${tabs.map(t => `<button class="tab" onclick="seleccionarTab('${t}')">${LABELS[t]}</button>`).join('')}
+      </div>`;
+  }
+
+  function seleccionar(pid) {
+    if (jugadorSeleccionado) {
+      document.getElementById('pcard-' + jugadorSeleccionado).classList.remove('seleccionado');
+    }
+    if (jugadorSeleccionado === pid) {
+      jugadorSeleccionado = null;
+      document.getElementById('stats-header').textContent = 'Seleccioná un jugador para registrar stats';
+      renderBotones();
+      return;
+    }
+    jugadorSeleccionado = pid;
+    document.getElementById('pcard-' + pid).classList.add('seleccionado');
+    const p = players.find(x => x.id === pid);
+    document.getElementById('stats-header').innerHTML =
+      'Registrando para <strong>' + p.name + '</strong>';
+    renderBotones();
+  }
+
+  function seleccionarTab(tab) {
+    tabActivo = tab;
+    document.getElementById('paso-tabs').style.display = 'none';
+    document.getElementById('paso-botones').style.display = 'block';
+    document.getElementById('tab-activo-label').textContent = LABELS[tab];
+    renderBotones();
+  }
+
+  function volverATabs() {
+    tabActivo = null;
+    renderTabs();
+    document.getElementById('paso-tabs').style.display = 'block';
+    document.getElementById('paso-botones').style.display = 'none';
+  }
+
+  function renderBotones() {
+    const grid = document.getElementById('botones-grid');
+    const btns = TABS[tabActivo];
+    const disabled = jugadorSeleccionado === null;
+    grid.innerHTML = btns.map(b =>
+      `<button class="btn-accion ${b.cls}" ${disabled ? 'disabled' : ''}
+        onclick="registrar('${b.key}', '${b.label}')">
+        ${b.label}
+      </button>`
+    ).join('');
+  }
+
+  function registrar(key, label) {
+    if (!jugadorSeleccionado) return;
+    const p = players.find(x => x.id === jugadorSeleccionado);
+    document.getElementById('log').innerHTML =
+      '✓ <span>' + p.name + '</span> — ' + tabActivo + ': ' + label;
+    // feedback visual: flash en el jugador
+    const el = document.getElementById('pcard-' + jugadorSeleccionado);
+    el.style.boxShadow = '0 0 0 8px rgba(255,255,255,0.8)';
+    setTimeout(() => { el.style.boxShadow = jugadorSeleccionado ? '0 0 0 4px rgba(255,255,255,0.4)' : ''; }, 250);
+  }
+
+  function cambiarScore(equipo, delta) {
+    if (equipo === 'local') scoreLocal = Math.max(0, scoreLocal + delta);
+    else scoreVisit = Math.max(0, scoreVisit + delta);
+    document.getElementById('score-local').innerHTML = scoreLocal + '<sup>' + setLocal + '</sup>';
+    document.getElementById('score-visit').innerHTML = scoreVisit + '<sup>' + setVisit + '</sup>';
+    // auto-switch modo + rotación al ganar el saque
+    if (delta === 1) {
+      const nuevoModo = equipo === 'local' ? 'sacando' : 'recibiendo';
+      const eraSacando = modo === 'sacando';
+      setModo(nuevoModo);
+      // rotar solo cuando el equipo local GANA el saque (antes recibía, ahora saca)
+      if (nuevoModo === 'sacando' && !eraSacando) {
+        rotarEquipo();
+      }
+    }
+  }
+
+  // render inicial
+  initCancha();
+  renderTabs();
+</script>
+</body>
+</html>

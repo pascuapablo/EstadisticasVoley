@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Estadisticas Voley</string>
+    <string name="title_activity_main">Estadisticas Voley</string>
+    <string name="package_name">com.estadisticasvoley.app</string>
+    <string name="custom_url_scheme">com.estadisticasvoley.app</string>
+</resources>

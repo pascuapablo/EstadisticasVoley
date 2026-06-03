@@ -1,0 +1,51 @@
+$info: 	#8cd5bf;
+
+$success: #b5ead7;
+$warning:#ecc884;
+$danger:	#ff8b82;
+
+$primary: #0a9396;
+
+$btn-active-bg-shade-amount:      80%;
+$btn-active-bg-tint-amount:       80%;
+$btn-active-border-shade-amount:  85%;
+$btn-active-border-tint-amount:   80%;
+
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+
+.tableFixHead          { overflow: auto; height: 100vh; }
+.tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
+.tablePlayerList tbody tr { height: 55px; vertical-align:middle }
+
+.dropdown-menu.show {
+  --bs-dropdown-min-width: 0em;
+}
+
+.btn{--bs-btn-padding-x: 0.3rem;}
+
+
+
+#myModal .modal-body {
+  max-height: calc(100vh - 500px);
+  overflow-y: auto;
+}
+
+.circle-btn {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.circle-btn-small {
+  width: 20px;
+  height: 20px;
+  font-size: 0.7em;
+
+}
